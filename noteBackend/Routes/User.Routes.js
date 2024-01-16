@@ -1,20 +1,26 @@
 import { User } from "../models/UserModel.js";
 
 export const UserRoutes = (app) => {
-  app.post("/api/users", async (req, res) => {
-    try {
-      const { data } = req.body;
-      if (!data) {
-        throw { code: 400, message: "Field is required" };
+   app.post("/api/users", async (req, res) => {
+      try {
+        const { user } = req.body;
+        console.log("Received user:", user);
+    
+        if (!user) {
+          throw { code: 400, message: "Field is required" };
+        }
+    
+        const todo = new User({ user });
+        await todo.save();
+        res.status(201).json({ message: "User created successfully" });
+      } catch (error) {
+        console.error(error);
+        res.status(error.code || 500).json({ error: error.message || "Internal Server Error" });
       }
-      const todo = new User({data})
-      await todo.save()
-    } catch (error) {
-      console.error(error);
-    }
-  });
+    });
+    
 
-  app.get("/", async (req, res, next) => {
+  app.get("/api/getUser", async (req, res, next) => {
     const todos = await User.find({ userId: req.body.userId });
     res.send(todos);
   });
@@ -26,7 +32,7 @@ export const UserRoutes = (app) => {
       userId: req.body.todoId,
     });
     if (deleteNote) {
-      res.send("delted");
+      res.send("Note deleted successfully");
     } else {
       res.send("cant delete");
     }

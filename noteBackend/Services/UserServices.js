@@ -1,4 +1,4 @@
-export const UserRoutes = ("/api/users", async (req,res) => {
+export const UserServices = ("/api/users", async (req,res) => {
     try{    
         
     } catch(error){

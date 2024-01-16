@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import { UserRoutes } from "./Services/UserServices.js";
+import { UserRoutes } from "./Routes/User.Routes.js";
 
 dotenv.config();
 
@@ -16,6 +16,7 @@ mongoose.connect(process.env.MONGODB_URL, {
 app.get("/", (req, res) => {
   res.send("Hello, world!");
 });
+
 
 UserRoutes(app);
 
