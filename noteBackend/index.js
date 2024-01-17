@@ -2,11 +2,15 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { UserRoutes } from "./Routes/User.Routes.js";
+import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+
+const  allowedOrigins = process.env.FRONTEND_URL.split(",");
+app.use(cors({ origin: allowedOrigins }));
 
 mongoose.set("strictQuery", true);
 mongoose.connect(process.env.MONGODB_URL, {
